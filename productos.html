@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JS Tech | Catálogo de Productos</title>
+    <meta name="theme-color" content="#0b3a3c">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        /* Correcciones de Navbar para dispositivos móviles */
+        .nb {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 10px;
+            padding: 8px 12px;
+            flex-wrap: wrap;
+        }
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: #fff;
+            text-decoration: none;
+            font-weight: 800;
+        }
+        .logo {
+            width: 38px;
+            height: 38px;
+            display: grid;
+            place-items: center;
+            align-content: center;
+            justify-content: center;
+            border-radius: 10px;
+            font-weight: 800;
+            font-size: 14px;
+            color: #fff;
+            background: linear-gradient(135deg, #34d399, #0f766e);
+            text-align: center;
+            line-height: 1;
+        }
+        
+        /* Contenedor de filtros */
+        .filter-row { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 12px; }
+        .badge-btn {
+            padding: 6px 14px; font-size: 13px; font-weight: 700; border-radius: 999px;
+            border: 1px solid #d5dee7; background: #fff; color: #334455; cursor: pointer; transition: all .2s;
+        }
+        .badge-btn.active { background: #0f766e; color: #fff; border-color: #0f766e; }
+        .badge-btn.back-btn { background: #f1f5f9; color: #0f1f2e; border-color: #cbd5e1; }
+
+        /* Cuadrícula de Productos Optimizada para Celulares */
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+            gap: 12px;
+            margin-top: 16px;
+        }
+        @media (min-width: 600px) {
+            .products-grid {
+                grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+                gap: 20px;
+            }
+        }
+        .product-card {
+            display: flex;
+            flex-direction: column;
+            background: #ffffff;
+            border: 1px solid #e3e9ef;
+            border-radius: 12px;
+            padding: 12px;
+            box-shadow: 0 4px 6px -2px rgba(15, 31, 46, .04);
+        }
+        .product-img {
+            width: 100%;
+            height: 130px;
+            object-fit: cover;
+            border-radius: 8px;
+            background-color: #f8fafc;
+            margin-bottom: 8px;
+        }
+        @media (min-width: 600px) {
+            .product-img { height: 160px; }
+        }
+        .product-title { font-size: 0.95rem; font-weight: 800; color: #0f1f2e; margin-bottom: 4px; }
+        .product-price { font-size: 1.05rem; font-weight: 800; color: #0f5e5a; margin-bottom: 6px; }
+        .product-desc { font-size: 0.82rem; color: #64748b; margin-bottom: 12px; flex: 1; }
+        .btn-ws {
+            width: 100%; padding: 8px 10px; font-size: 0.82rem; font-weight: 700; color: #ffffff;
+            background: linear-gradient(135deg, #14a38f, #0f766e); border: none; border-radius: 8px;
+            text-align: center; text-decoration: none; display: inline-block; box-sizing: border-box;
+        }
+    </style>
+</head>
+<body>
+<div id="ap">
+    <header class="top" style="background: linear-gradient(160deg, #0a1a26 0%, #0b3a3c 60%, #0f766e 130%); color: #fff; padding: 20px 0 40px;">
+        <div class="w">
+            <nav class="nb" style="background: rgba(255, 255, 255, .08); border: 1px solid rgba(255, 255, 255, .18); border-radius: 12px; margin-bottom: 16px;">
+                <a class="brand" href="index.html">
+                    <div class="logo">JS</div>
+                    <span>JS Tech</span>
+                </a>
+                <a href="index.html" style="color: #fff; text-decoration: none; font-size: 12px; font-weight: 700; background: rgba(255,255,255,0.15); padding: 6px 12px; border-radius: 8px;">Volver al Inicio</a>
+            </nav>
+            <span class="badge" style="background: rgba(16, 185, 129, 0.2); color: #34d399; margin-bottom: 8px; display: inline-block;">TIENDA Y ACCESORIOS</span>
+            <h1 style="font-size: 1.8rem; margin-bottom: 6px;">Catálogo de Productos</h1>
+            <p style="opacity: 0.85; font-size: 13px; margin: 0;">Explora los repuestos y accesorios disponibles.</p>
+        </div>
+    </header>
+
+    <main class="w" style="margin-top: -20px; padding-bottom: 40px;">
+        <section class="card">
+            <span class="section-kicker" id="lblCatSeleccionada" style="font-weight: 800; color: #0f9d8a; letter-spacing: 1px; font-size: 11px;">CATEGORÍA: TODAS</span>
+            <h2 style="margin: 4px 0 0; font-size: 18px;">Nuestros Productos</h2>
+            <p class="mut" style="font-size: 12px; margin: 4px 0 10px;">Contáctanos al +506 8638 9553 para consultas y compras rápidas.</p>
+            
+            <div id="contenedorFiltros" class="filter-row">
+                <button class="badge-btn active" data-cat="">Cargando categorías...</button>
+            </div>
+        </section>
+
+        <section class="card">
+            <div id="listaProductosCliente" class="products-grid">
+                <p class="mut" style="grid-column: 1 / -1; text-align: center; padding: 20px;">Cargando productos...</p>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="w">
+            <div class="brand">
+                <div class="logo">JS</div>
+                <span>JS Tech</span>
+            </div>
+            <p style="margin-top: 8px; font-size: 13px;">Teléfono / WhatsApp: +506 8638 9553</p>
+        </div>
+    </footer>
+</div>
+
+<script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+    import { initializeFirestore, collection, onSnapshot } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+    
+    const firebaseConfig = {
+        apiKey: "AIzaSyBHdtd1YLq8z_cuVgUDx33Z088okq0Sriw",
+        authDomain: "servicio-tecnico-1d91f.firebaseapp.com",
+        projectId: "servicio-tecnico-1d91f",
+        storageBucket: "servicio-tecnico-1d91f.firebasestorage.app",
+        messagingSenderId: "475926146823",
+        appId: "1:475926146823:web:1bd26d301c1ad0d25f5fa2"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const db = initializeFirestore(app, { experimentalForceLongPolling: true });
+
+    let todosLosProductos = [];
+    let todasLasCategorias = [];
+    let todasLasSubcategorias = [];
+    let categoriaSeleccionada = "";
+    let subcategoriaSeleccionada = "";
+
+    const contenedorFiltros = document.getElementById("contenedorFiltros");
+    const listaProductos = document.getElementById("listaProductosCliente");
+    const lblCatSeleccionada = document.getElementById("lblCatSeleccionada");
+
+    function escapar(v) {
+        return String(v ?? "").replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" })[c]);
+    }
+
+    onSnapshot(collection(db, "categories"), snapshot => {
+        todasLasCategorias = [];
+        snapshot.forEach(docSnap => {
+            const data = docSnap.data();
+            if (data && data.nombre) todasLasCategorias.push(data.nombre);
+        });
+        renderizarFiltros();
+    });
+
+    onSnapshot(collection(db, "subcategories"), snapshot => {
+        todasLasSubcategorias = snapshot.docs.map(d => d.data());
+        renderizarFiltros();
+    });
+
+    onSnapshot(collection(db, "products"), snapshot => {
+        todosLosProductos = snapshot.docs.map(docSnap => ({ id: docSnap.id, ...docSnap.data() }));
+        todosLosProductos.sort((a, b) => (b.creado || 0) - (a.creado || 0));
+        renderizarProductos();
+    });
+
+    function renderizarFiltros() {
+        if (!categoriaSeleccionada) {
+            let html = `<button class="badge-btn active" data-cat="">Todos</button>`;
+            todasLasCategorias.forEach(cat => {
+                html += `<button class="badge-btn" data-cat="${escapar(cat)}">${escapar(cat)}</button>`;
+            });
+            contenedorFiltros.innerHTML = html;
+        } else {
+            let html = `<button class="badge-btn back-btn" data-volver="true">⬅ Volver a Categorías</button>`;
+            html += `<button class="badge-btn ${subcategoriaSeleccionada === "" ? "active" : ""}" data-subcat="">Todas en ${escapar(categoriaSeleccionada)}</button>`;
+            
+            const subsFiltradas = todasLasSubcategorias.filter(s => s && s.categoria === categoriaSeleccionada);
+            subsFiltradas.forEach(sub => {
+                if (sub && sub.nombre) {
+                    html += `<button class="badge-btn ${subcategoriaSeleccionada === sub.nombre ? "active" : ""}" data-subcat="${escapar(sub.nombre)}">${escapar(sub.nombre)}</button>`;
+                }
+            });
+            contenedorFiltros.innerHTML = html;
+        }
+    }
+
+    contenedorFiltros.addEventListener("click", e => {
+        const btn = e.target.closest(".badge-btn");
+        if (!btn) return;
+
+        if (btn.dataset.volver === "true") {
+            categoriaSeleccionada = "";
+            subcategoriaSeleccionada = "";
+            lblCatSeleccionada.textContent = "CATEGORÍA: TODAS";
+            renderizarFiltros();
+            renderizarProductos();
+            return;
+        }
+
+        if (btn.dataset.cat !== undefined) {
+            categoriaSeleccionada = btn.dataset.cat;
+            subcategoriaSeleccionada = "";
+            lblCatSeleccionada.textContent = categoriaSeleccionada ? `CATEGORÍA: ${categoriaSeleccionada.toUpperCase()}` : "CATEGORÍA: TODAS";
+            renderizarFiltros();
+            renderizarProductos();
+        } else if (btn.dataset.subcat !== undefined) {
+            subcategoriaSeleccionada = btn.dataset.subcat;
+            contenedorFiltros.querySelectorAll(".badge-btn").forEach(b => {
+                if (b.dataset.subcat !== undefined) b.classList.remove("active");
+            });
+            btn.classList.add("active");
+            renderizarProductos();
+        }
+    });
+
+    function renderizarProductos() {
+        let filtrados = todosLosProductos;
+        if (categoriaSeleccionada) {
+            filtrados = filtrados.filter(p => p.categoria === categoriaSeleccionada);
+        }
+        if (subcategoriaSeleccionada) {
+            filtrados = filtrados.filter(p => p.subcategoria === subcategoriaSeleccionada);
+        }
+
+        if (filtrados.length === 0) {
+            listaProductos.innerHTML = `<p class="mut" style="grid-column: 1 / -1; text-align: center; padding: 20px;">No hay productos disponibles en esta sección.</p>`;
+            return;
+        }
+
+        let html = "";
+        filtrados.forEach(p => {
+            const mensajeWp = encodeURIComponent(`Hola, estoy interesado en el producto: ${p.nombre} (Precio: ₡${p.precio})`);
+            const imagenUrl = (p.imagen && p.imagen.trim() !== "") ? p.imagen : "logo.jpeg";
+            html += `
+                <div class="product-card">
+                    <div>
+                        <img src="${escapar(imagenUrl)}" alt="Foto" class="product-img" onerror="this.src='logo.jpeg'">
+                        <div style="display:flex; gap:4px; flex-wrap:wrap; margin-bottom:4px;">
+                            ${p.categoria ? `<span style="display:inline-block; font-size:9px; font-weight:700; background:rgba(15,157,138,0.1); color:#0f9d8a; padding:2px 6px; border-radius:4px;">${escapar(p.categoria)}</span>` : ''}
+                            ${p.subcategoria ? `<span style="display:inline-block; font-size:9px; font-weight:700; background:#dcfce7; color:#166534; padding:2px 6px; border-radius:4px;">${escapar(p.subcategoria)}</span>` : ''}
+                        </div>
+                        <div class="product-title">${escapar(p.nombre)}</div>
+                        <div class="product-price">₡${escapar(p.precio)}</div>
+                        <p class="product-desc">${escapar(p.descripcion)}</p>
+                    </div>
+                    <a href="https://wa.me/50686389553?text=${mensajeWp}" target="_blank" class="btn-ws">
+                        💬 Consultar
+                    </a>
+                </div>
+            `;
+        });
+        listaProductos.innerHTML = html;
+    }
+</script>
+</body>
+</html>

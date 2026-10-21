@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JS Tech | Servicio Técnico y Tienda</title>
+    <meta name="theme-color" content="#0b3a3c">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        /* Ajustes de Navbar para Celulares */
+        .nb {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 8px;
+            padding: 8px 10px;
+            flex-wrap: wrap;
+        }
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: #fff;
+            text-decoration: none;
+            font-weight: 800;
+            font-size: 14px;
+        }
+        .logo {
+            width: 36px;
+            height: 36px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 8px;
+            font-weight: 800;
+            font-size: 13px;
+            color: #fff;
+            background: linear-gradient(135deg, #34d399, #0f766e);
+            text-align: center;
+            line-height: 1;
+            flex-shrink: 0;
+        }
+
+        /* Menú Desplegable */
+        .dropdown { position: relative; display: inline-block; }
+        .dropdown-btn {
+            color: #fff; text-decoration: none; font-weight: 700; background: #0d9488;
+            padding: 6px 10px; border-radius: 6px; font-size: 11px; display: inline-flex; align-items: center; gap: 4px; cursor: pointer;
+        }
+        
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            top: 100%;
+            right: 0;
+            background-color: #082f33;
+            min-width: 170px;
+            box-shadow: 0px 8px 20px rgba(0,0,0,0.4);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 8px;
+            z-index: 1000;
+            padding: 4px 0;
+            margin-top: 4px;
+        }
+        .dropdown-content a {
+            color: #ffffff !important;
+            padding: 8px 12px !important;
+            text-decoration: none;
+            display: block !important;
+            font-size: 12px !important;
+            font-weight: 600 !important;
+            background: transparent !important;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+            text-align: left;
+        }
+        .dropdown-content a:last-child { border-bottom: none; }
+        .dropdown-content a:hover, .dropdown-content a:active { background-color: #0d9488 !important; }
+        
+        .dropdown:hover .dropdown-content, .dropdown:focus-within .dropdown-content { display: block; }
+
+        @media (max-width: 480px) {
+            .hero { padding: 20px 0 20px; }
+            .hero h1 { font-size: 1.5rem !important; margin-top: 10px; }
+            .hero p.lead { font-size: 13px !important; margin-top: 6px; }
+            .badge-hero { font-size: 10px !important; margin-top: 12px; margin-bottom: 4px; }
+            .cards { margin-top: -15px; grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+<div class="hero">
+    <nav class="w">
+        <div class="nb" style="background: rgba(255, 255, 255, .08); border: 1px solid rgba(255, 255, 255, .16); border-radius: 12px;">
+            <a class="brand" href="index.html">
+                <div class="logo">JS</div>
+                <span>JS Tech</span>
+            </a>
+            <div style="display: flex; align-items: center; gap: 6px;">
+                <div class="dropdown" tabindex="0">
+                    <a href="productos.html" class="dropdown-btn">🛍️ Tienda ▾</a>
+                    <div class="dropdown-content" id="menuCategorias">
+                        <a href="productos.html">✨ Ver Todo</a>
+                    </div>
+                </div>
+                <a href="#contacto" style="color: #fff; text-decoration: none; font-weight: 700; background: rgba(255, 255, 255, 0.15); padding: 6px 10px; border-radius: 6px; font-size: 11px;">Contacto</a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="w">
+        <span class="badge badge-hero" style="background: rgba(255,255,255,0.15); color: #fff; display: inline-block;">SERVICIO TÉCNICO Y TIENDA</span>
+        <h1 style="line-height: 1.2;">Sigue la reparación de tu dispositivo</h1>
+        <p class="lead">Ingresa el código que te entregamos al dejar tu equipo y consulta el estado, historial y fotografías.</p>
+        
+        <form id="formConsulta" class="sb" style="margin-top: 14px;">
+            <input id="q" type="text" placeholder="Ej: RP-4K7M2X" autocomplete="off" style="text-transform: uppercase;" />
+            <button class="btn" id="b" type="submit">Consultar</button>
+        </form>
+    </div>
+</div>
+
+<div class="w">
+    <div class="cards">
+        <div class="sc">
+            <div class="ic">🔍</div>
+            <b>Seguimiento</b>
+            <p>Monitoreo en tiempo real del estado de tu equipo en taller.</p>
+        </div>
+        <div class="sc">
+            <div class="ic">💬</div>
+            <b>Soporte Directo</b>
+            <p>Comunícate con nosotros de forma rápida y sencilla.</p>
+        </div>
+        <div class="sc">
+            <div class="ic">🛡️</div>
+            <b>Garantía JS</b>
+            <p>Seguridad y respaldo absoluto en cada una de nuestras reparaciones.</p>
+        </div>
+    </div>
+
+    <div id="r"></div>
+
+    <section id="how" style="margin-top: 24px;">
+        <h2>¿Cómo funciona?</h2>
+        <div class="st card">
+            <div>
+                <span>1</span>
+                <b>Entrega tu equipo</b>
+                <p>Déjalo en nuestro taller y recibe tu código único de seguimiento.</p>
+            </div>
+            <div>
+                <span>2</span>
+                <b>Consulta en línea</b>
+                <p>Ingresa tu código aquí para ver los avances y fotos del proceso.</p>
+            </div>
+            <div>
+                <span>3</span>
+                <b>Retira tu dispositivo</b>
+                <p>Te avisamos de inmediato cuando esté listo para retirar.</p>
+            </div>
+        </div>
+    </section>
+</div>
+
+<footer id="contacto">
+    <div class="w">
+        <div class="brand">
+            <div class="logo">JS</div>
+            <span>JS Tech</span>
+        </div>
+        <p style="margin-top: 6px; font-size: 13px;">Teléfono / WhatsApp: +506 8638 9553</p>
+        <p><small>&copy; <span id="yr"></span> JS Tech. Todos los derechos reservados.</small></p>
+    </div>
+</footer>
+
+<script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+    import { initializeFirestore, doc, getDoc, collection, onSnapshot } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+    
+    const firebaseConfig = {
+        apiKey: "AIzaSyBHdtd1YLq8z_cuVgUDx33Z088okq0Sriw",
+        authDomain: "servicio-tecnico-1d91f.firebaseapp.com",
+        projectId: "servicio-tecnico-1d91f",
+        storageBucket: "servicio-tecnico-1d91f.firebasestorage.app",
+        messagingSenderId: "475926146823",
+        appId: "1:475926146823:web:1bd26d301c1ad0d25f5fa2"
+    };
+    const ESTADOS = ["Recibido", "En diagnóstico", "Esperando repuesto", "En reparación", "Listo para entrega", "Entregado"];
+    const app = initializeApp(firebaseConfig);
+    const db = initializeFirestore(app, { experimentalForceLongPolling: true });
+    
+    document.getElementById("yr").textContent = new Date().getFullYear();
+    const menuCat = document.getElementById("menuCategorias");
+    
+    onSnapshot(collection(db, "categories"), snapshot => {
+        let htmlMenu = `<a href="productos.html">✨ Ver Todo</a>`;
+        snapshot.forEach(docSnap => {
+            const data = docSnap.data();
+            if (data && data.nombre) {
+                htmlMenu += `<a href="productos.html?cat=${encodeURIComponent(data.nombre)}">📦 ${data.nombre}</a>`;
+            }
+        });
+        menuCat.innerHTML = htmlMenu;
+    });
+
+    function esc(s) { return String(s ?? "").replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c])); }
+    function fmt(t) {
+        const fecha = Number(t);
+        if (!Number.isFinite(fecha) || fecha <= 0) return "Fecha no disponible";
+        return new Date(fecha).toLocaleString("es-CR", { dateStyle: "medium", timeStyle: "short" });
+    }
+    function BADGE(estado) {
+        const i = ESTADOS.indexOf(estado);
+        return `<span class="badge s${Math.max(0, i)}">${esc(estado || "Sin estado")}</span>`;
+    }
+    function progress(estado) {
+        const i = ESTADOS.indexOf(estado);
+        return `<div class="steps">${ESTADOS.map((s, k) => `<div class="step ${i >= 0 && k <= i ? "d" : ""}"><i></i>${esc(s)}</div>`).join("")}</div>`;
+    }
+    function galeriaCliente(fotos = []) {
+        if (!Array.isArray(fotos) || fotos.length === 0) return '';
+        return `
+            <section style="margin-top: 20px;">
+                <h3>📸 Fotografías de la reparación</h3>
+                <div class="photo-grid">
+                    ${fotos.map(foto => `
+                        <article class="photo-card">
+                            <a href="${esc(foto.url)}" target="_blank" rel="noopener noreferrer">
+                                <img src="${esc(foto.url)}" alt="${esc(foto.categoria || "Foto")}" loading="lazy">
+                            </a>
+                            <strong>${esc(foto.categoria || "Dispositivo")}</strong>
+                        </article>
+                    `).join("")}
+                </div>
+            </section>
+        `;
+    }
+    function detalle(reparacion) {
+        const historial = Array.isArray(reparacion.historial) ? reparacion.historial : [];
+        const historialHTML = historial.length ? historial.slice().reverse().map(h => `<div>${esc(h.estado)} ${h.nota ? `— ${esc(h.nota)}` : ""} <small>${esc(fmt(h.fecha))}</small></div>`).join("") : "<p class='mut'>Sin actualizaciones registradas.</p>";
+        return `
+            <div class="dh">
+                <div>
+                    <div class="mut">${esc(reparacion.tipo || "Dispositivo")}</div>
+                    <h2>${esc(reparacion.modelo || "Equipo registrado")}</h2>
+                </div>
+                ${BADGE(reparacion.estado)}
+            </div>
+            ${progress(reparacion.estado)}
+            <p class="mut"><b>Problema:</b> ${esc(reparacion.problema || "No especificado")} ${reparacion.costo ? `<br><b>Costo:</b> ₡${esc(reparacion.costo)}` : ""}</p>
+            <h3>Historial</h3>
+            <div class="tl">${historialHTML}</div>
+            ${galeriaCliente(reparacion.fotos || [])}
+        `;
+    }
+    async function buscar() {
+        const codigo = document.getElementById("q").value.trim().toUpperCase();
+        const rDiv = document.getElementById("r");
+        const bBtn = document.getElementById("b");
+        if (!codigo) {
+            rDiv.innerHTML = `<div class="card">Escribe tu código de reparación.</div>`;
+            return;
+        }
+        bBtn.disabled = true;
+        bBtn.textContent = "Buscando...";
+        rDiv.innerHTML = `<div class="card">Consultando estado...</div>`;
+        try {
+            const resultado = await getDoc(doc(db, "repairs", codigo));
+            if (!resultado.exists()) {
+                rDiv.innerHTML = `<div class="card">No encontramos ese código. Verifícalo e inténtalo de nuevo.</div>`;
+                return;
+            }
+            rDiv.innerHTML = `<div class="card">${detalle(resultado.data())}</div>`;
+            rDiv.scrollIntoView({ behavior: "smooth", block: "center" });
+        } catch (error) {
+            console.error(error);
+            rDiv.innerHTML = `<div class="card">Error al consultar. Inténtalo más tarde.</div>`;
+        } finally {
+            bBtn.disabled = false;
+            bBtn.textContent = "Consultar";
+        }
+    }
+    document.getElementById("formConsulta").addEventListener("submit", e => { e.preventDefault(); buscar(); });
+</script>
+</body>
+</html>
